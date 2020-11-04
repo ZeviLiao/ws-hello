@@ -38,12 +38,12 @@ wss.on('connection', ws => {
 
     //對 message 設定監聽，接收從 Client 發送的訊息
     ws.on('message', data => {
-        let ob$ = of(data).pipe(delay(1000))
-        //data 為 Client 發送的訊息，現在將訊息原封不動發送出去
-        ob$.subscribe((v) => {
-            ws.send(v)
-        })
-        // ws.send(data)
+        // let ob$ = of(data) //.pipe(delay(1000))
+        // //data 為 Client 發送的訊息，現在將訊息原封不動發送出去
+        // ob$.subscribe((v) => {
+        //     ws.send(v)
+        // })
+        ws.send(data)
     })
 
     //當 WebSocket 的連線關閉時執行
