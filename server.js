@@ -1,6 +1,7 @@
 //import express 和 ws 套件
 const express = require('express')
 const SocketServer = require('ws').Server
+var { of } = require('rxjs');
 
 //指定開啟的 port
 const PORT = 3000
@@ -24,21 +25,25 @@ wss.on('connection', ws => {
     //     ws.send(String(new Date()))
     // },1000)
 
-    ws.on('message', data => {
-        //取得所有連接中的 client
-        let clients = wss.clients
+    // ws.on('message', data => {
+    //     //取得所有連接中的 client
+    //     let clients = wss.clients
 
-        //做迴圈，發送訊息至每個 client
-        clients.forEach(client => {
-            client.send(data)
-        })
-    })
+    //     //做迴圈，發送訊息至每個 client
+    //     clients.forEach(client => {
+    //         client.send(data)
+    //     })
+    // })
 
     //對 message 設定監聽，接收從 Client 發送的訊息
-    // ws.on('message', data => {
-    //     //data 為 Client 發送的訊息，現在將訊息原封不動發送出去
-    //     ws.send(data)
-    // })
+    ws.on('message', data => {
+        let ob = of('zevi')
+        //data 為 Client 發送的訊息，現在將訊息原封不動發送出去
+        ob.subscribe((v) => {
+            ws.send(v)
+        })
+        // ws.send(data)
+    })
 
     //當 WebSocket 的連線關閉時執行
     ws.on('close', () => {
