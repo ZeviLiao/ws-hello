@@ -2,6 +2,7 @@
 const express = require('express')
 const SocketServer = require('ws').Server
 var { of } = require('rxjs');
+var { delay } = require('rxjs/operators');
 
 //指定開啟的 port
 const PORT = 3000
@@ -37,9 +38,9 @@ wss.on('connection', ws => {
 
     //對 message 設定監聽，接收從 Client 發送的訊息
     ws.on('message', data => {
-        let ob = of('zevi')
+        let ob$ = of(data).pipe(delay(1000))
         //data 為 Client 發送的訊息，現在將訊息原封不動發送出去
-        ob.subscribe((v) => {
+        ob$.subscribe((v) => {
             ws.send(v)
         })
         // ws.send(data)
